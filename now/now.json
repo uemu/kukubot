@@ -1,0 +1,8 @@
+{
+  "name": "kukubot",
+  "alias": "kukubot",
+  "env": {
+    "CHANNEL_SECRET": "@channel-secret",
+    "CHANNEL_TOKEN": "@channel-token"
+  }
+}

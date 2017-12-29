@@ -1,0 +1,64 @@
+// Spring InitializrでGradle、Kotlin、Spring Boot 1.5.9を選択して生成したbuild.gradleがベース
+// 追加した部分はコメントに「追加: XXX」と記載
+buildscript {
+	ext {
+		kotlinVersion = '1.2.0'
+		springBootVersion = '1.5.9.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+		classpath("org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}")
+	}
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'idea' // 追加: IntelliJ用
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'uemu'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+compileKotlin {
+	kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+	kotlinOptions.jvmTarget = "1.8"
+}
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
+	compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+	compile('com.linecorp.bot:line-bot-spring-boot:1.12.0') //+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+// 追加: テスト用の環境変数（これが無いとKukubotApplicationのchannelTokenの設定でエラーになる）
+test {
+	environment "CHANNEL_TOKEN", "TEST"
+}
+
+// 追加: nowにデプロイする前に実行するビルドタスク
+task buildForNow(type: Copy, dependsOn: build) {
+	from jar.archivePath
+	into project.file('now')
+	rename {
+		'kukubot.jar'
+	}
+}
+
+// 追加: cleanタスクの後にnow用のjarを削除
+clean.doLast { //+
+	project.file('now/kukubot.jar').delete()
+}
