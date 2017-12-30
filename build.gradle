@@ -40,7 +40,7 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jre8:${kotlinVersion}")
 	compile("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-	compile('com.linecorp.bot:line-bot-spring-boot:1.12.0') //+
+	compile('com.linecorp.bot:line-bot-spring-boot:1.12.0') // 追加: LineBotのライブラリ
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
