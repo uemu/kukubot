@@ -58,7 +58,18 @@ task buildForNow(type: Copy, dependsOn: build) {
 	}
 }
 
-// 追加: cleanタスクの後にnow用のjarを削除
-clean.doLast { //+
+// 追加: cleanタスクの最後にnowやHeroku用のjarを削除
+clean.doLast {
 	project.file('now/kukubot.jar').delete()
+	project.file('kukubot.jar').delete()
 }
+
+// 追加: Herokuへデプロイした時に実行されるタスク
+task stage(type: Copy, dependsOn: [build, clean]) {
+	from jar.archivePath
+	into project.rootDir
+	rename {
+		'kukubot.jar'
+	}
+}
+build.mustRunAfter clean

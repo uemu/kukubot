@@ -1,0 +1,1 @@
+web: java -jar kukubot.jar --server.port=$PORT
