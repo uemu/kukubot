@@ -40,7 +40,7 @@ class KukubotApplication {
     } else if (text.matches(Regex("だ[1-9]"))) {
       context.fixedNumber = text.substring(1).toInt()
       response.add(TextMessage("${context.fixedNumber}のだんになったよ"))
-    } else if (text.matches(Regex("[0-9]+"))) {
+    } else if (context.answer != 0 && text.matches(Regex("[0-9]+"))) {
       if (text.toInt() == context.answer) {
         context.combo++
         response.add(TextMessage("正かい！" + if (context.combo == 1) "" else " ${context.combo}れんぞく"))
