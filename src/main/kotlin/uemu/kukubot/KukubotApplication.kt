@@ -11,25 +11,21 @@ import com.linecorp.bot.spring.boot.annotation.LineMessageHandler
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import java.util.concurrent.ConcurrentHashMap
 import javax.annotation.PreDestroy
 
 @SpringBootApplication
 @LineMessageHandler
 class KukubotApplication {
 
-  private val userContextMap: HashMap<String, UserContext> = HashMap()
+  private val userContextMap = ConcurrentHashMap<String, UserContext>()
 
   @Value("\${line.bot.channelToken}")
   private var channelToken = ""
 
   @EventMapping
   fun handleTextMessageEvent(messageEvent: MessageEvent<TextMessageContent>): List<TextMessage> {
-    var context: UserContext? = userContextMap[messageEvent.source.userId]
-    if (context === null) {
-      context = UserContext()
-      userContextMap[messageEvent.source.userId] = context
-    }
-
+    var context = userContextMap.getOrPut(messageEvent.source.userId) { UserContext() }
     val response = ArrayList<TextMessage>()
     val text = messageEvent.message.text
 
