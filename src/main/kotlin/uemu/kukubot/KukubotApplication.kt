@@ -21,11 +21,11 @@ class KukubotApplication {
   private val userContextMap = ConcurrentHashMap<String, UserContext>()
 
   @Value("\${line.bot.channelToken}")
-  private var channelToken = ""
+  private val channelToken = ""
 
   @EventMapping
   fun handleTextMessageEvent(messageEvent: MessageEvent<TextMessageContent>): List<TextMessage> {
-    var context = userContextMap.getOrPut(messageEvent.source.userId) { UserContext() }
+    val context = userContextMap.getOrPut(messageEvent.source.userId) { UserContext() }
     val response = ArrayList<TextMessage>()
     val text = messageEvent.message.text
 
