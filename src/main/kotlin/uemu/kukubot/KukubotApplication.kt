@@ -1,7 +1,5 @@
 package uemu.kukubot
 
-import com.linecorp.bot.client.LineMessagingServiceBuilder
-import com.linecorp.bot.model.Multicast
 import com.linecorp.bot.model.event.Event
 import com.linecorp.bot.model.event.MessageEvent
 import com.linecorp.bot.model.event.message.TextMessageContent
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import java.util.concurrent.ConcurrentHashMap
-import javax.annotation.PreDestroy
 
 @SpringBootApplication
 @LineMessageHandler
@@ -69,12 +66,6 @@ class KukubotApplication {
 
   @EventMapping
   fun handleDefaultMessageEvent(event: Event) {
-  }
-
-  @PreDestroy
-  fun preDestroy() {
-    val multicast = Multicast(userContextMap.keys, TextMessage("スリープします"))
-    LineMessagingServiceBuilder.create(channelToken).build().multicast(multicast).execute()
   }
 
 }
