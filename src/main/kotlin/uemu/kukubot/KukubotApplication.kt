@@ -6,7 +6,6 @@ import com.linecorp.bot.model.event.message.TextMessageContent
 import com.linecorp.bot.model.message.TextMessage
 import com.linecorp.bot.spring.boot.annotation.EventMapping
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import java.util.concurrent.ConcurrentHashMap
@@ -16,9 +15,6 @@ import java.util.concurrent.ConcurrentHashMap
 class KukubotApplication {
 
   private val userContextMap = ConcurrentHashMap<String, UserContext>()
-
-  @Value("\${line.bot.channelToken}")
-  private val channelToken = ""
 
   @EventMapping
   fun handleTextMessageEvent(messageEvent: MessageEvent<TextMessageContent>): List<TextMessage> {
