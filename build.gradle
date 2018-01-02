@@ -44,11 +44,6 @@ dependencies {
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
-// 追加: テスト用の環境変数（これが無いとKukubotApplicationのchannelTokenの設定でエラーになる）
-test {
-	environment "CHANNEL_TOKEN", "TEST"
-}
-
 // 追加: nowにデプロイする前に実行するビルドタスク
 task buildForNow(type: Copy, dependsOn: build) {
 	from jar.archivePath
